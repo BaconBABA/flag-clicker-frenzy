@@ -6,10 +6,11 @@ import continents from "@/data/continents";
 import ContinentCard from "@/components/home/ContinentCard";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import PlayerForm from "@/components/multiplayer/PlayerForm";
 import { useGame } from "@/context/GameContext";
-import { Globe, Users, Play } from "lucide-react";
+import { Play } from "lucide-react";
 
-const Index = () => {
+const Multiplayer = () => {
   const navigate = useNavigate();
   const { state, startGame } = useGame();
   
@@ -30,45 +31,49 @@ const Index = () => {
           transition={{ duration: 0.5 }}
           className="text-center mb-12"
         >
-          <div className="inline-flex items-center justify-center mb-6">
-            <Globe className="h-16 w-16 text-primary animate-float" />
-          </div>
-          <h1 className="text-4xl sm:text-5xl font-bold mb-4">Welcome to FlagQuest</h1>
+          <h1 className="text-4xl font-bold mb-4">Multiplayer Mode</h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Test your geography knowledge by identifying country flags. Select a continent to begin.
+            Play with friends! Add players and select a continent to begin.
           </p>
         </motion.div>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-          {continents.map((continent, index) => (
-            <ContinentCard key={continent.id} continent={continent} index={index} />
-          ))}
+        <div className="flex flex-col lg:flex-row gap-8 mb-12">
+          <div className="w-full lg:w-1/3">
+            <PlayerForm />
+          </div>
+          
+          <div className="w-full lg:w-2/3">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2 }}
+              className="glass-card rounded-xl p-6"
+            >
+              <h2 className="text-xl font-bold mb-4">Select a Continent</h2>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {continents.map((continent, index) => (
+                  <ContinentCard key={continent.id} continent={continent} index={index} />
+                ))}
+              </div>
+            </motion.div>
+          </div>
         </div>
         
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.5, duration: 0.5 }}
-          className="flex flex-col sm:flex-row gap-4 justify-center mt-8"
+          transition={{ delay: 0.5 }}
+          className="flex justify-center mt-8"
         >
           <Button
             size="lg"
             onClick={handleStartGame}
-            disabled={!state.selectedContinent}
-            className="button-shine gap-2 py-6 text-lg"
+            disabled={!state.selectedContinent || state.players.length < 2}
+            className="button-shine gap-2 py-6 px-8 text-lg"
           >
             <Play className="h-5 w-5" />
-            Start Single Player
-          </Button>
-          
-          <Button
-            variant="outline"
-            size="lg"
-            onClick={() => navigate("/multiplayer")}
-            className="gap-2 py-6 text-lg"
-          >
-            <Users className="h-5 w-5" />
-            Multiplayer Mode
+            Start Game
           </Button>
         </motion.div>
       </main>
@@ -78,4 +83,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default Multiplayer;
