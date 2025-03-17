@@ -21,9 +21,9 @@ const FlagCard = ({
 }: FlagCardProps) => {
   return (
     <motion.div
-      initial={animate ? { opacity: 0, y: 20 } : false}
-      animate={animate ? { opacity: 1, y: 0 } : false}
-      exit={animate ? { opacity: 0, scale: 0.9 } : false}
+      initial={animate ? { opacity: 0, y: 20 } : undefined}
+      animate={animate ? { opacity: 1, y: 0 } : undefined}
+      exit={animate ? { opacity: 0, scale: 0.9 } : undefined}
       transition={{ duration: 0.3, delay: delay }}
       className={cn(
         "flag-card cursor-pointer overflow-hidden",
